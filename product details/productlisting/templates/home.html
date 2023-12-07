@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Product Listing</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">Product Listing</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create' %}">Add Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <form class="d-flex" action="{% url 'search' %}" method="get">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'event_calendar' %}">Events</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav><br><hr>
+    <center>
+        
+        {% comment %} <h1>Add New Products</h1><br><br> {% endcomment %}
+        {% comment %} <form method="post" action="{% url 'create' %}">
+            {% csrf_token %}
+            <label>Name:</label><br>
+            <input type="text" name="name"><br><br>
+            <label>Price:</label><br>
+            <input type="number" name="price"><br><br>
+            <label for="description">Description:</label><br><br>
+            <textarea id="description" name="description" rows="5" cols="100"></textarea><br><br>
+            <label for="availability">Availability:</label>
+            <select id="availability" name="availability">
+            <option value="available">Available</option>
+            <option value="not_available">Not Available</option>
+            </select><br><br>
+            <button type="submit" class="btn btn-primary">Add Product</button><br><br>
+        </form> {% endcomment %}
+        {% comment %} <form method="get" action="{% url 'search' %}">
+            <input type="text" placeholder="search products" name="query">
+            <button type="submit"  class="btn btn-primary" >Search</button><br><br>
+        </form> {% endcomment %}<hr>
+        <h1>Our Product List</h1><hr><br>
+        
+        <div class="row">
+            {% for product in data %}
+            <div class="col-md-4"> <!-- Adjust columns based on desired layout -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">Price: Rs.{{ product.price }}/-</p>
+                        <p class="card-text">Description: {{ product.description }}</p>
+                        <p class="card-text">Availability: {{ product.availability }}</p>
+                        <!-- Delete button -->
+                        <a href="{% url 'update' product.id %}" class="btn btn-warning">Seasonal Update</a>
+                        <a href="{% url 'delete' product.id %}" class="btn btn-danger">Delete</a>
+                        
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% comment %} <table border="1">
+            
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Availability</th>
+                </tr>
+            
+            <tbody>
+                {% for product in data %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>{{ product.availability }}</td>
+                    <td><a href="{% url 'delete' product.id %}"><button class="btn btn-danger">Delete</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table><br> {% endcomment %}<br><br>
+        
+    </center>
+    <center>
+        <!-- Form for sending messages -->
+        <h1>Contact Admin</h1>
+<form method="post" action="{% url 'send_message' %}" onsubmit="showAlert()">
+    {% csrf_token %}
+    <label for="subject">Subject:</label><br>
+    <input type="text" id="subject" name="subject"><br><br>
+    <label for="message">Message:</label><br><br>
+    <textarea id="message" name="message" rows="5" cols="100"></textarea><br><br>
+    <button type="submit" class="btn btn-primary">Send Message</button><br><br>
+</form>
+<hr>
+<script>
+    function showAlert() {
+        alert("Your message has been sent successfully!");
+    }
+</script>
+    </center>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+</body>
+</html>
